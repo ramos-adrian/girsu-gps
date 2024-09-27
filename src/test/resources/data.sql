@@ -1,0 +1,1 @@
+INSERT INTO TRUCK (id, plate) VALUES (99, 'AA 123 BB');
