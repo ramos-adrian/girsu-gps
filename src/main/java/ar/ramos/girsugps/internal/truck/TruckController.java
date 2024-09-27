@@ -1,5 +1,7 @@
 package ar.ramos.girsugps.internal.truck;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,12 @@ public class TruckController {
 
     public TruckController(ITruckService truckService) {
         this.truckService = truckService;
+    }
+
+    @GetMapping
+    private ResponseEntity<Iterable<Truck>> findAll(Pageable pageable) {
+        Page<Truck> page = truckService.findAll(pageable);
+        return ResponseEntity.ok(page.getContent());
     }
 
     @GetMapping("/{id}")
