@@ -1,5 +1,6 @@
 package ar.ramos.girsugps.internal.truck;
 
+import ar.ramos.girsugps.internal.positionRecord.PositionRecord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,13 @@ public class TruckController {
         Truck savedTruck = truckService.save(truck);
         URI location = ucb.path("trucks/{id}").buildAndExpand(savedTruck.getId()).toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    // Get positions of a truck
+    @GetMapping("/{id}/positionRecords")
+    private ResponseEntity<Iterable<PositionRecord>> findPositionRecords(@PathVariable Long id, Pageable pageable) {
+        Page<PositionRecord> positionRecords = truckService.findPositionRecordsByTruckId(id, pageable);
+        return ResponseEntity.ok(positionRecords.getContent());
     }
 
     // TODO Move out of the class

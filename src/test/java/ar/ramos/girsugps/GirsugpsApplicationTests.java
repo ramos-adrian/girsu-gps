@@ -5,6 +5,7 @@ import ar.ramos.girsugps.internal.truck.Truck;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -163,7 +164,7 @@ class GirsugpsApplicationTests {
         assertThat(ids).isNotNull();
         assertThat(ids.size()).isEqualTo(10);
         assertThat(ids).containsExactlyInAnyOrder(
-                19, 18, 17, 16, 15, 14, 13, 12, 11, 10
+                48, 47, 46, 45, 44, 43, 42, 41, 40, 39
         );
 
         JSONArray timestamps = documentContext.read("$..timestamp");
@@ -215,6 +216,33 @@ class GirsugpsApplicationTests {
         Number longitude = documentContext.read("$[0].longitude");
         assertThat(longitude).isNotNull();
         assertThat(longitude.doubleValue()).isEqualTo(-65.60045678346874);
+    }
+
+    @Test
+    void positionRecordsByTruckId() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/trucks/99/positionRecords?page=0&size=10", String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        DocumentContext documentContext = JsonPath.parse(response.getBody());
+
+        Number size = documentContext.read("$.size()");
+        assertThat(size).isNotNull();
+        assertThat(size.intValue()).isEqualTo(3);
+
+        JSONArray ids = documentContext.read("$..id");
+        assertThat(ids).isNotNull();
+        assertThat(ids.size()).isEqualTo(3);
+        assertThat(ids).containsExactlyInAnyOrder(
+                30, 31, 32
+        );
+
+        JSONArray timestamps = documentContext.read("$..timestamp");
+        assertThat(timestamps).isNotNull();
+        assertThat(timestamps.size()).isEqualTo(3);
+        assertThat(timestamps).containsExactly(
+                1694865600000L, 1694851200000L, 1694822400000L
+        );
     }
 
 }
