@@ -10,7 +10,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/positionRecord")
+@RequestMapping("/positionRecords")
 public class PositionRecordController {
 
     private final IPositionRecordService positionRecordService;

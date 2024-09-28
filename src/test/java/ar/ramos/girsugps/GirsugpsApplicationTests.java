@@ -150,7 +150,7 @@ class GirsugpsApplicationTests {
 
     @Test
     void positionRecordFindAll() {
-        ResponseEntity<String> response = restTemplate.getForEntity("/positionRecord?page=0&size=10", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity("/positionRecords?page=0&size=10", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -180,11 +180,11 @@ class GirsugpsApplicationTests {
 
         long timestamp = System.currentTimeMillis();
 
-        ResponseEntity<Void> response = restTemplate.postForEntity("/positionRecord", new PositionRecord(null, 149L, -27.346002192793083, -65.60045678346874, timestamp), Void.class);
+        ResponseEntity<Void> response = restTemplate.postForEntity("/positionRecords", new PositionRecord(null, 149L, -27.346002192793083, -65.60045678346874, timestamp), Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-        ResponseEntity<String> responseGet = restTemplate.getForEntity("/positionRecord?page=0&size=1", String.class);
+        ResponseEntity<String> responseGet = restTemplate.getForEntity("/positionRecords?page=0&size=1", String.class);
 
         assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.OK);
 
