@@ -1,5 +1,6 @@
 package ar.ramos.girsugps;
 
+import ar.ramos.girsugps.internal.positionRecord.PositionRecord;
 import ar.ramos.girsugps.internal.truck.Truck;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -144,6 +145,76 @@ class GirsugpsApplicationTests {
                 "EE 567 FF",
                 "EE 789 FF"
         );
+    }
+
+    @Test
+    void positionRecordFindAll() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/positionRecord?page=0&size=10", String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        DocumentContext documentContext = JsonPath.parse(response.getBody());
+
+        Number size = documentContext.read("$.size()");
+        assertThat(size).isNotNull();
+        assertThat(size.intValue()).isEqualTo(10);
+
+        JSONArray ids = documentContext.read("$..id");
+        assertThat(ids).isNotNull();
+        assertThat(ids.size()).isEqualTo(10);
+        assertThat(ids).containsExactlyInAnyOrder(
+                19, 18, 17, 16, 15, 14, 13, 12, 11, 10
+        );
+
+        JSONArray timestamps = documentContext.read("$..timestamp");
+        assertThat(timestamps).isNotNull();
+        assertThat(timestamps.size()).isEqualTo(10);
+        assertThat(timestamps).containsExactly(
+                1695256800000L, 1695235200000L, 1695213600000L, 1695192000000L, 1695170400000L, 1695148800000L, 1695127200000L, 1695105600000L, 1695084000000L, 1695062400000L
+        );
+    }
+
+    @Test
+    void positionRecordSave() {
+
+        long timestamp = System.currentTimeMillis();
+
+        ResponseEntity<Void> response = restTemplate.postForEntity("/positionRecord", new PositionRecord(null, 149L, -27.346002192793083, -65.60045678346874, timestamp), Void.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+        ResponseEntity<String> responseGet = restTemplate.getForEntity("/positionRecord?page=0&size=1", String.class);
+
+        assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        DocumentContext documentContext = JsonPath.parse(responseGet.getBody());
+
+        Number size = documentContext.read("$.size()");
+        assertThat(size).isNotNull();
+        assertThat(size.intValue()).isEqualTo(1);
+
+        Object firstElement = documentContext.read("$[0]");
+        assertThat(firstElement).isNotNull();
+
+        Number id = documentContext.read("$[0].id");
+        assertThat(id).isNotNull();
+        assertThat(id.intValue()).isGreaterThan(0);
+
+        Number truckId = documentContext.read("$[0].truckId");
+        assertThat(truckId).isNotNull();
+        assertThat(truckId.intValue()).isEqualTo(149);
+
+        Number savedTimestamp = documentContext.read("$[0].timestamp");
+        assertThat(savedTimestamp).isNotNull();
+        assertThat(savedTimestamp.longValue()).isEqualTo(timestamp);
+
+        Number latitude = documentContext.read("$[0].latitude");
+        assertThat(latitude).isNotNull();
+        assertThat(latitude.doubleValue()).isEqualTo(-27.346002192793083);
+
+        Number longitude = documentContext.read("$[0].longitude");
+        assertThat(longitude).isNotNull();
+        assertThat(longitude.doubleValue()).isEqualTo(-65.60045678346874);
     }
 
 }

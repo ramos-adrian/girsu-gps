@@ -50,3 +50,27 @@ INSERT INTO TRUCK (id, plate) VALUES (147, 'KL 567 MN');
 INSERT INTO TRUCK (id, plate) VALUES (148, 'OP 890 QR');
 INSERT INTO TRUCK (id, plate) VALUES (149, 'ST 123 UV');
 INSERT INTO TRUCK (id, plate) VALUES (150, 'WX 456 YZ');
+
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (99, -27.3450, -65.5920, 1694822400000);  -- 2024-09-16 00:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (99, -27.3455, -65.5925, 1694851200000);  -- 2024-09-16 06:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (99, -27.3460, -65.5930, 1694865600000);  -- 2024-09-16 12:00:00
+
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (100, -27.3465, -65.5935, 1694908800000);  -- 2024-09-16 18:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (100, -27.3470, -65.5940, 1694947200000);  -- 2024-09-17 00:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (100, -27.3475, -65.5945, 1694961600000);  -- 2024-09-17 06:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (100, -27.3480, -65.5950, 1694976000000);  -- 2024-09-17 12:00:00
+
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (101, -27.3485, -65.5955, 1695019200000);  -- 2024-09-17 18:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (101, -27.3490, -65.5960, 1695040800000);  -- 2024-09-18 00:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (101, -27.3495, -65.5965, 1695062400000);  -- 2024-09-18 06:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (101, -27.3500, -65.5970, 1695084000000);  -- 2024-09-18 12:00:00
+
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (102, -27.3505, -65.5975, 1695105600000);  -- 2024-09-18 18:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (102, -27.3510, -65.5980, 1695127200000);  -- 2024-09-19 00:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (102, -27.3515, -65.5985, 1695148800000);  -- 2024-09-19 06:00:00
+
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (103, -27.3520, -65.5990, 1695170400000);  -- 2024-09-19 12:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (103, -27.3525, -65.5995, 1695192000000);  -- 2024-09-19 18:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (103, -27.3530, -65.6000, 1695213600000);  -- 2024-09-20 00:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (103, -27.3535, -65.6005, 1695235200000);  -- 2024-09-20 06:00:00
+INSERT INTO POSITION_RECORD (truck_id, latitude, longitude, timestamp) VALUES (103, -27.3540, -65.6010, 1695256800000);  -- 2024-09-20 12:00:00
