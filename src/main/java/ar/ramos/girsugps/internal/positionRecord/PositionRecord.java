@@ -3,6 +3,8 @@ package ar.ramos.girsugps.internal.positionRecord;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class PositionRecord {
     @Id
