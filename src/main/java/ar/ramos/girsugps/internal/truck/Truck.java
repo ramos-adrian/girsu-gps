@@ -1,14 +1,9 @@
 package ar.ramos.girsugps.internal.truck;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter @Setter
+@Data
 public class Truck {
     @Id
     private Long id;
