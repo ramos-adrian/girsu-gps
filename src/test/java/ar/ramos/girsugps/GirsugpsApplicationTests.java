@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -300,4 +301,37 @@ class GirsugpsApplicationTests {
         );
     }
 
+    @Test
+    @DirtiesContext
+    void shouldDeleteAnExistingTruck() {
+        ResponseEntity<Void> response = restTemplate
+                .withBasicAuth(adminUsername, adminPassword)
+                .exchange("/trucks/99", HttpMethod.DELETE, null, Void.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        ResponseEntity<String> responseGet = restTemplate
+                .withBasicAuth(adminUsername, adminPassword)
+                .getForEntity("/trucks/99", String.class);
+
+        assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void shouldNotDeleteAnUnexistingTruck() {
+        ResponseEntity<Void> response = restTemplate
+                .withBasicAuth(adminUsername, adminPassword)
+                .exchange("/trucks/987452", HttpMethod.DELETE, null, Void.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void shouldNotDeleteAnExistingTruckUnauthorized() {
+        ResponseEntity<Void> response = restTemplate
+                .withBasicAuth("sarah", "password")
+                .exchange("/trucks/99", HttpMethod.DELETE, null, Void.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+    }
 }

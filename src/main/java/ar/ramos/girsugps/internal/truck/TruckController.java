@@ -46,6 +46,16 @@ public class TruckController {
         return ResponseEntity.ok(positionRecords.getContent());
     }
 
+    @DeleteMapping("/{id}")
+    private ResponseEntity<Void> delete(@PathVariable Long id) {
+        if(truckService.existsById(id)){
+            truckService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     // TODO Move out of the class
     @ControllerAdvice
     public static class GlobalExceptionHandler {

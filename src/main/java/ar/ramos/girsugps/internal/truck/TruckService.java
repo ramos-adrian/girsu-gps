@@ -53,6 +53,16 @@ public class TruckService implements ITruckService {
         );
     }
 
+    @Override
+    public void deleteById(Long id) {
+        truckRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return truckRepository.existsById(id);
+    }
+
     public static class EntityNotFoundException extends RuntimeException {
         public EntityNotFoundException(String message) {
             super(message);

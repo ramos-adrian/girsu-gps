@@ -9,4 +9,6 @@ public interface ITruckService {
     Truck save(Truck truck);
     Page<Truck> findAll(Pageable pageable);
     Page<PositionRecord> findPositionRecordsByTruckId(Long truckId, Pageable pageable);
+    void deleteById(Long id);
+    boolean existsById(Long id);
 }
