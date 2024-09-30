@@ -59,6 +59,8 @@ class GirsugpsApplicationTests {
 
         URI location = response.getHeaders().getLocation();
 
+        System.out.println(location);
+
         ResponseEntity<String> responseGet = restTemplate.getForEntity(location, String.class);
 
         assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.OK);

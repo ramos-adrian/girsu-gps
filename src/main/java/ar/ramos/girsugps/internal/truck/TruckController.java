@@ -35,7 +35,7 @@ public class TruckController {
     @PostMapping
     private ResponseEntity<Void> save(@RequestBody Truck truck, UriComponentsBuilder ucb) {
         Truck savedTruck = truckService.save(truck);
-        URI location = ucb.path("trucks/{id}").buildAndExpand(savedTruck.getId()).toUri();
+        URI location = ucb.path("/trucks/{id}").buildAndExpand(savedTruck.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
