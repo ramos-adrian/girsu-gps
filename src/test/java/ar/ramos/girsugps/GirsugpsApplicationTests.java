@@ -209,11 +209,21 @@ class GirsugpsApplicationTests {
 
         long timestamp = System.currentTimeMillis();
 
-        ResponseEntity<Void> response = restTemplate
+        ResponseEntity<PositionRecord> response = restTemplate
                 .withBasicAuth("john", "password")
-                .postForEntity("/positionRecords", new PositionRecord(null, 149L, -27.346002192793083, -65.60045678346874, timestamp), Void.class);
+                .postForEntity("/positionRecords", new PositionRecord(null, 149L, -27.346002192793083, -65.60045678346874, timestamp), PositionRecord.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+        PositionRecord responseBody = response.getBody();
+
+        assertThat(responseBody).isNotNull();
+
+        assertThat(responseBody.getId()).isGreaterThan(0);
+        assertThat(responseBody.getTruckId()).isEqualTo(149);
+        assertThat(responseBody.getTimestamp()).isEqualTo(timestamp);
+        assertThat(responseBody.getLatitude()).isEqualTo(-27.346002192793083);
+        assertThat(responseBody.getLongitude()).isEqualTo(-65.60045678346874);
 
         ResponseEntity<String> responseGet = restTemplate
                 .withBasicAuth("john", "password")

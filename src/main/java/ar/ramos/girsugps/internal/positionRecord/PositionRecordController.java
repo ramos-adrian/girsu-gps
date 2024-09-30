@@ -29,7 +29,7 @@ public class PositionRecordController {
     public ResponseEntity<PositionRecord> save(@RequestBody PositionRecord record, UriComponentsBuilder ucb) {
         PositionRecord savedRecord = positionRecordService.save(record);
         URI location = ucb.path("/positionRecord/{id}").buildAndExpand(savedRecord.getId()).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(savedRecord);
     }
 
 }
