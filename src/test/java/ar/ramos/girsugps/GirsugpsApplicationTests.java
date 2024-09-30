@@ -68,11 +68,17 @@ class GirsugpsApplicationTests {
     void createNewTruck() {
         Truck newTruck = new Truck(null, "BB 123 BB");
 
-        ResponseEntity<Void> response = restTemplate
+        ResponseEntity<Truck> response = restTemplate
                 .withBasicAuth("john", "password")
-                .postForEntity("/trucks", newTruck, Void.class);
+                .postForEntity("/trucks", newTruck, Truck.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+
+        Truck responseBody = response.getBody();
+
+        assertThat(responseBody).isNotNull();
+        assertThat(responseBody.getId()).isGreaterThan(0);
+        assertThat(responseBody.getPlate()).isEqualTo("BB 123 BB");
 
         URI location = response.getHeaders().getLocation();
 
