@@ -1,6 +1,5 @@
 package ar.ramos.girsugps;
 
-import ar.ramos.girsugps.config.TestSecurityConfig;
 import ar.ramos.girsugps.internal.positionRecord.PositionRecord;
 import ar.ramos.girsugps.internal.truck.Truck;
 import com.jayway.jsonpath.DocumentContext;
@@ -8,20 +7,25 @@ import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = {TestSecurityConfig.class})
 class GirsugpsApplicationTests {
+
+    @Value("${ADMIN_USERNAME}")
+    private String adminUsername;
+
+    @Value("${ADMIN_PASSWORD}")
+    private String adminPassword;
 
     @Autowired
     TestRestTemplate restTemplate;
@@ -29,7 +33,7 @@ class GirsugpsApplicationTests {
     @Test
     void truckFindById() {
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/trucks/99", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -51,13 +55,13 @@ class GirsugpsApplicationTests {
                 .withBasicAuth("sarah", "password")
                 .getForEntity("/trucks/99", String.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
     @Test
     void truckFindByIdNotFound() {
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/trucks/999", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -69,7 +73,7 @@ class GirsugpsApplicationTests {
         Truck newTruck = new Truck(null, "BB 123 BB");
 
         ResponseEntity<Truck> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .postForEntity("/trucks", newTruck, Truck.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -85,7 +89,7 @@ class GirsugpsApplicationTests {
         System.out.println(location);
 
         ResponseEntity<String> responseGet = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity(location, String.class);
 
         assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -104,7 +108,7 @@ class GirsugpsApplicationTests {
     @Test
     void truckFindAll() {
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/trucks?page=0&size=52", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -131,7 +135,7 @@ class GirsugpsApplicationTests {
     @Test
     void truckReturnPage() {
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/trucks?page=0&size=10", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -153,7 +157,7 @@ class GirsugpsApplicationTests {
     @Test
     void truckReturnSortedPage() {
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/trucks?page=0&size=10&sort=plate,asc", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -184,7 +188,7 @@ class GirsugpsApplicationTests {
     @Test
     void positionRecordFindAll() {
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/positionRecords?page=0&size=10", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -216,7 +220,7 @@ class GirsugpsApplicationTests {
         long timestamp = System.currentTimeMillis();
 
         ResponseEntity<PositionRecord> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .postForEntity("/positionRecords", new PositionRecord(null, 149L, -27.346002192793083, -65.60045678346874, timestamp), PositionRecord.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -232,7 +236,7 @@ class GirsugpsApplicationTests {
         assertThat(responseBody.getLongitude()).isEqualTo(-65.60045678346874);
 
         ResponseEntity<String> responseGet = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/positionRecords?page=0&size=1", String.class);
 
         assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -270,7 +274,7 @@ class GirsugpsApplicationTests {
     @Test
     void positionRecordsByTruckId() {
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth("john", "password")
+                .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity("/trucks/99/positionRecords?page=0&size=10", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

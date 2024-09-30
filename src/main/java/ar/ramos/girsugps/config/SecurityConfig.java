@@ -1,5 +1,6 @@
 package ar.ramos.girsugps.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -37,20 +38,23 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    Just for testing purposes
-//    @Bean
-//    UserDetailsService testOnlyUsers(PasswordEncoder passwordEncoder) {
-//        User.UserBuilder users = User.builder();
-//        UserDetails sarah = users
-//                .username("sarah")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("USER")
-//                .build();
-//        UserDetails john = users
-//                .username("john")
-//                .password(passwordEncoder.encode("password"))
-//                .roles("ADMIN")
-//                .build();
-//        return new InMemoryUserDetailsManager(sarah, john);
-//    }
+
+    //    Just for testing purposes
+
+    @Value("${ADMIN_USERNAME}")
+    private String adminUsername;
+
+    @Value("${ADMIN_PASSWORD}")
+    private String adminPassword;
+
+    @Bean
+    UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        User.UserBuilder users = User.builder();
+        UserDetails admin = users
+                .username(adminUsername)
+                .password(passwordEncoder.encode(adminPassword))
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(admin);
+    }
 }
