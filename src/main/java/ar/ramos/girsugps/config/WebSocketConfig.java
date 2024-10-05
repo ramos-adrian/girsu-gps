@@ -15,8 +15,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketConfig.class);
 
-    @Value("${WEBSOCKET_ALLOWED_ORIGINS:*}")
-    private String allowedOrigins;
+    private final String allowedOrigins;
+
+    public WebSocketConfig(
+            @Value("${WEBSOCKET_ALLOWED_ORIGINS:*}") String allowedOrigins
+    ) {
+        this.allowedOrigins = allowedOrigins;
+    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
