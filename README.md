@@ -69,8 +69,8 @@ To obtain a working local copy, follow these simple steps.
 2. Create a .env file in the root directory with the following variables:
    ```sh
     #.env
-    CORS_ALLOWED_ORIGINS=http://localhost:3000
-    WEBSOCKET_ALLOWED_ORIGINS=http://localhost:3000
+    ADMIN_USERNAME=admin
+    ADMIN_PASSWORD=secret
    ```
    
 4. Run the development server

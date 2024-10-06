@@ -66,8 +66,8 @@ Para obtener una copia local del proyecto, siga estos pasos:
 2. Crear un archivo `.env` en la raíz del proyecto y configurar las variables de entorno
    ```sh
     #.env
-    CORS_ALLOWED_ORIGINS=http://localhost:3000
-    WEBSOCKET_ALLOWED_ORIGINS=http://localhost:3000
+    ADMIN_USERNAME=admin
+    ADMIN_PASSWORD=secret
    ```
 
 4. Ejecutar la aplicación con Maven

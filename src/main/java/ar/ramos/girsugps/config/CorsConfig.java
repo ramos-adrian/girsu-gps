@@ -11,7 +11,7 @@ public class CorsConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer(
-            @Value("${CORS_ALLOWED_ORIGINS:*}") String allowedOrigins
+            @Value("${cors.allowed.origins:*}") String allowedOrigins
     ) {
         return new WebMvcConfigurer() {
             @Override

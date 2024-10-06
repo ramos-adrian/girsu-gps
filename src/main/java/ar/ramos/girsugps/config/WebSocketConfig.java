@@ -18,7 +18,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final String allowedOrigins;
 
     public WebSocketConfig(
-            @Value("${WEBSOCKET_ALLOWED_ORIGINS:*}") String allowedOrigins
+            @Value("${websocket.allowed.origins:*}") String allowedOrigins
     ) {
         this.allowedOrigins = allowedOrigins;
     }
