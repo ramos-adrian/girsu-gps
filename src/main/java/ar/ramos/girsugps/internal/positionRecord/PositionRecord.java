@@ -1,16 +1,18 @@
 package ar.ramos.girsugps.internal.positionRecord;
 
+import ar.ramos.girsugps.internal.truck.Truck;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
+@Entity
 public class PositionRecord {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long truckId;
+    private long truckId;
     private double latitude;
     private double longitude;
     private long timestamp; // in milliseconds since epoch

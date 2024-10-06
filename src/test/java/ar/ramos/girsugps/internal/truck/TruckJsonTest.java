@@ -18,7 +18,9 @@ public class TruckJsonTest {
     @Test
     public void truckSerializationTest() throws IOException {
 
-        Truck truck = new Truck(1L, "AA 123 BB");
+        Truck truck = new Truck();
+        truck.setId(1L);
+        truck.setPlate("AA 123 BB");
 
         assertThat(jacksonTester.write(truck)).isEqualToJson("truck.json");
 
@@ -35,7 +37,9 @@ public class TruckJsonTest {
 
         String content = "{\"id\":1,\"plate\":\"AA 123 BB\"}";
 
-        Truck truck = new Truck(1L, "AA 123 BB");
+        Truck truck = new Truck();
+        truck.setId(1L);
+        truck.setPlate("AA 123 BB");
 
         assertThat(jacksonTester.parseObject(content).getId()).isEqualTo(1);
         assertThat(jacksonTester.parseObject(content).getPlate()).isEqualTo("AA 123 BB");

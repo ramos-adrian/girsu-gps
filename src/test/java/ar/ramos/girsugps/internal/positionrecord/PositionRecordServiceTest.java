@@ -39,8 +39,20 @@ public class PositionRecordServiceTest {
     @Test
     void save_shouldPersistPositionRecordAndPublishEvent() {
         long timestamp = System.currentTimeMillis();
-        PositionRecord positionRecord = new PositionRecord(null, 1L, 40.7128, -74.0060, timestamp);
-        PositionRecord savedRecord = new PositionRecord(1L, 1L, 40.7128, -74.0060, timestamp);
+
+        PositionRecord positionRecord = new PositionRecord();
+        positionRecord.setTruckId(1L);
+        positionRecord.setLatitude(40.7128);
+        positionRecord.setLongitude(-74.0060);
+        positionRecord.setTimestamp(timestamp);
+
+        PositionRecord savedRecord = new PositionRecord();
+        savedRecord.setId(1L);
+        savedRecord.setTruckId(1L);
+        savedRecord.setLatitude(40.7128);
+        savedRecord.setLongitude(-74.0060);
+        savedRecord.setTimestamp(timestamp);
+
         when(positionRecordRepository.save(positionRecord)).thenReturn(savedRecord);
 
         positionRecordService.save(positionRecord);

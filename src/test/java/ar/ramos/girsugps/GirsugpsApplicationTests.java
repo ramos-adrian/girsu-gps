@@ -14,12 +14,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+@Sql(scripts = "/data.sql")
 class GirsugpsApplicationTests {
 
     @Value("${ADMIN_USERNAME}")
@@ -71,7 +75,8 @@ class GirsugpsApplicationTests {
     @Test
     @DirtiesContext
     void createNewTruck() {
-        Truck newTruck = new Truck(null, "BB 123 BB");
+        Truck newTruck = new Truck();
+        newTruck.setPlate("BB 123 BB");
 
         ResponseEntity<Truck> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
@@ -220,9 +225,15 @@ class GirsugpsApplicationTests {
 
         long timestamp = System.currentTimeMillis();
 
+        PositionRecord toSave = new PositionRecord();
+        toSave.setTruckId(149L);
+        toSave.setLatitude(-27.346002192793083);
+        toSave.setLongitude(-65.60045678346874);
+        toSave.setTimestamp(timestamp);
+
         ResponseEntity<PositionRecord> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .postForEntity("/positionRecords", new PositionRecord(null, 149L, -27.346002192793083, -65.60045678346874, timestamp), PositionRecord.class);
+                .postForEntity("/positionRecords", toSave, PositionRecord.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
