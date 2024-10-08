@@ -11,7 +11,9 @@ import java.util.List;
 @Getter @Setter
 @Entity
 public class Truck {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
+
+    @Column(nullable = false, unique = true, updatable = false)
     private String plate;
 }

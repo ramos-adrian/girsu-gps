@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
-                .csrf(csfr -> csfr.disable())
+                .csrf(csfr -> csfr.disable()) // TODO Check security implications
                 .build();
     }
 
