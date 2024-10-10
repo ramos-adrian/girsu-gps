@@ -14,11 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.List;
+
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            @Value("${cors.allowed.origins:*}") String allowedOrigins
+    ) throws Exception {
         return http
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/ws/**")
@@ -30,6 +35,17 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(csfr -> csfr.disable()) // TODO Check security implications
+                .cors(cors -> cors.configurationSource(request -> { // TODO Check security implications
+                    var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfiguration.setAllowedOrigins(List.of(allowedOrigins));
+                    corsConfiguration.setAllowedMethods(List.of("GET", "POST"));
+                    corsConfiguration.setAllowedHeaders(List.of(
+                            "Authorization",
+                            "Cache-Control",
+                            "Content-Type"
+                    ));
+                    return corsConfiguration;
+                }))
                 .build();
     }
 
