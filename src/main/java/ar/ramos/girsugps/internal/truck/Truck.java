@@ -14,6 +14,6 @@ public class Truck {
     @Id
     private Long id;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(nullable = false, unique = true)
     private String plate;
 }
