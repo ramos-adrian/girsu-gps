@@ -39,7 +39,7 @@ class GirsugpsApplicationTests {
     void truckFindById() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/trucks/99", String.class);
+                .getForEntity("/api/trucks/99", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -58,7 +58,7 @@ class GirsugpsApplicationTests {
     void truckFindByIdUnauthorized() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth("sarah", "password")
-                .getForEntity("/trucks/99", String.class);
+                .getForEntity("/api/trucks/99", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
@@ -67,7 +67,7 @@ class GirsugpsApplicationTests {
     void truckFindByIdNotFound() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/trucks/999", String.class);
+                .getForEntity("/api/trucks/999", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
@@ -76,11 +76,12 @@ class GirsugpsApplicationTests {
     @DirtiesContext
     void createNewTruck() {
         Truck newTruck = new Truck();
+        newTruck.setId(1921L);
         newTruck.setPlate("BB 123 BB");
 
         ResponseEntity<Truck> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .postForEntity("/trucks", newTruck, Truck.class);
+                .postForEntity("/api/trucks", newTruck, Truck.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
@@ -115,7 +116,7 @@ class GirsugpsApplicationTests {
     void truckFindAll() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/trucks?page=0&size=52", String.class);
+                .getForEntity("/api/trucks?page=0&size=52", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -142,7 +143,7 @@ class GirsugpsApplicationTests {
     void truckReturnPage() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/trucks?page=0&size=10", String.class);
+                .getForEntity("/api/trucks?page=0&size=10", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -164,7 +165,7 @@ class GirsugpsApplicationTests {
     void truckReturnSortedPage() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/trucks?page=0&size=10&sort=plate,asc", String.class);
+                .getForEntity("/api/trucks?page=0&size=10&sort=plate,asc", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -195,7 +196,7 @@ class GirsugpsApplicationTests {
     void positionRecordFindAll() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/positionRecords?page=0&size=10", String.class);
+                .getForEntity("/api/positionRecords?page=0&size=10", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -233,7 +234,7 @@ class GirsugpsApplicationTests {
 
         ResponseEntity<PositionRecord> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .postForEntity("/positionRecords", toSave, PositionRecord.class);
+                .postForEntity("/api/positionRecords", toSave, PositionRecord.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
@@ -249,7 +250,7 @@ class GirsugpsApplicationTests {
 
         ResponseEntity<String> responseGet = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/positionRecords?page=0&size=1", String.class);
+                .getForEntity("/api/positionRecords?page=0&size=1", String.class);
 
         assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -287,7 +288,7 @@ class GirsugpsApplicationTests {
     void positionRecordsByTruckId() {
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/trucks/99/positionRecords?page=0&size=10", String.class);
+                .getForEntity("/api/trucks/99/positionRecords?page=0&size=10", String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -317,13 +318,13 @@ class GirsugpsApplicationTests {
     void shouldDeleteAnExistingTruck() {
         ResponseEntity<Void> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .exchange("/trucks/99", HttpMethod.DELETE, null, Void.class);
+                .exchange("/api/trucks/99", HttpMethod.DELETE, null, Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         ResponseEntity<String> responseGet = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .getForEntity("/trucks/99", String.class);
+                .getForEntity("/api/trucks/99", String.class);
 
         assertThat(responseGet.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
@@ -332,7 +333,7 @@ class GirsugpsApplicationTests {
     void shouldNotDeleteAnUnexistingTruck() {
         ResponseEntity<Void> response = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
-                .exchange("/trucks/987452", HttpMethod.DELETE, null, Void.class);
+                .exchange("/api/trucks/987452", HttpMethod.DELETE, null, Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
@@ -341,7 +342,7 @@ class GirsugpsApplicationTests {
     void shouldNotDeleteAnExistingTruckUnauthorized() {
         ResponseEntity<Void> response = restTemplate
                 .withBasicAuth("sarah", "password")
-                .exchange("/trucks/99", HttpMethod.DELETE, null, Void.class);
+                .exchange("/api/trucks/99", HttpMethod.DELETE, null, Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -13,39 +14,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.List;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
-            @Value("${cors.allowed.origins:*}") String allowedOrigins
-    ) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/ws/**")
-                        .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/trucks/**", "/positionRecords/**")
-                        .hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/trucks/**", "/positionRecords/**")
-                        .hasRole("ADMIN")
+                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
+                .exceptionHandling(customizer -> customizer
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .httpBasic(Customizer.withDefaults())
                 .csrf(csfr -> csfr.disable()) // TODO Check security implications
-                .cors(cors -> cors.configurationSource(request -> { // TODO Check security implications
-                    var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-                    corsConfiguration.setAllowedOrigins(List.of(allowedOrigins));
-                    corsConfiguration.setAllowedMethods(List.of("GET", "POST"));
-                    corsConfiguration.setAllowedHeaders(List.of(
-                            "Authorization",
-                            "Cache-Control",
-                            "Content-Type"
-                    ));
-                    return corsConfiguration;
-                }))
+                .cors(Customizer.withDefaults())
                 .build();
     }
 

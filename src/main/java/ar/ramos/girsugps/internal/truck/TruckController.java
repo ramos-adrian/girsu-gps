@@ -11,7 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/trucks")
+@RequestMapping("/api/trucks")
 public class TruckController {
 
     private final ITruckService truckService;
@@ -35,7 +35,7 @@ public class TruckController {
     @PostMapping
     private ResponseEntity<Truck> save(@RequestBody Truck truck, UriComponentsBuilder ucb) {
         Truck savedTruck = truckService.save(truck);
-        URI location = ucb.path("/trucks/{id}").buildAndExpand(savedTruck.getId()).toUri();
+        URI location = ucb.path("api/trucks/{id}").buildAndExpand(savedTruck.getId()).toUri();
         return ResponseEntity.created(location).body(savedTruck);
     }
 
