@@ -1,5 +1,6 @@
 package ar.ramos.girsugps;
 
+import ar.ramos.girsugps.internal.login.LoginController;
 import ar.ramos.girsugps.internal.positionRecord.PositionRecord;
 import ar.ramos.girsugps.internal.truck.Truck;
 import com.jayway.jsonpath.DocumentContext;
@@ -10,14 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.net.URI;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -345,5 +345,38 @@ class GirsugpsApplicationTests {
                 .exchange("/api/trucks/99", HttpMethod.DELETE, null, Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    void shouldBeAbleToLoginAndReceiveSessionCookie() {
+        ResponseEntity<String> response = restTemplate
+                .postForEntity("/api/login",
+                        new LoginController.LoginRequest("admin", "smtadminx"),
+                        String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<String> cookies = response.getHeaders().get("Set-Cookie");
+        assertThat(cookies).isNotNull();
+
+        String sessionCookie = response.getHeaders().get("Set-Cookie").get(0);
+        assertThat(sessionCookie).contains("JSESSIONID");
+
+        // Make request with the session cookie
+
+        ResponseEntity<String> response2 = restTemplate
+                .exchange("/api/trucks/99", HttpMethod.GET, null, String.class);
+
+        assertThat(response2.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+
+        // Make request using the session cookie
+        HttpHeaders headers = new HttpHeaders();
+        headers.put(HttpHeaders.COOKIE, cookies);
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response3 = restTemplate
+                .exchange("/api/trucks/99", HttpMethod.GET, request, String.class);
+
+        assertThat(response3.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }
