@@ -1,8 +1,5 @@
 package ar.ramos.girsugps.internal.positionrecord;
 
-import ar.ramos.girsugps.internal.positionRecord.IPositionRecordRepository;
-import ar.ramos.girsugps.internal.positionRecord.PositionRecord;
-import ar.ramos.girsugps.internal.positionRecord.PositionRecordService;
 import ar.ramos.girsugps.internal.truck.TruckLocationUpdateDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

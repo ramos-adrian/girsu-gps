@@ -1,4 +1,4 @@
-package ar.ramos.girsugps.internal.positionRecord;
+package ar.ramos.girsugps.internal.positionrecord;
 
 import ar.ramos.girsugps.internal.truck.TruckLocationUpdateDTO;
 import org.springframework.context.ApplicationEventPublisher;

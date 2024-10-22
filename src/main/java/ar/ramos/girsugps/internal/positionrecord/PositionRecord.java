@@ -1,7 +1,5 @@
-package ar.ramos.girsugps.internal.positionRecord;
+package ar.ramos.girsugps.internal.positionrecord;
 
-import ar.ramos.girsugps.internal.truck.Truck;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 

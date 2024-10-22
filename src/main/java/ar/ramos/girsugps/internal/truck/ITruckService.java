@@ -1,6 +1,6 @@
 package ar.ramos.girsugps.internal.truck;
 
-import ar.ramos.girsugps.internal.positionRecord.PositionRecord;
+import ar.ramos.girsugps.internal.positionrecord.PositionRecord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

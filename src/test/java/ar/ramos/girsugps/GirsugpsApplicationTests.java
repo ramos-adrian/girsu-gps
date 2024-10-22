@@ -1,7 +1,7 @@
 package ar.ramos.girsugps;
 
 import ar.ramos.girsugps.internal.login.LoginController;
-import ar.ramos.girsugps.internal.positionRecord.PositionRecord;
+import ar.ramos.girsugps.internal.positionrecord.PositionRecord;
 import ar.ramos.girsugps.internal.truck.Truck;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
