@@ -39,6 +39,9 @@ public class User implements UserDetails {
 
     private String password;
 
+    private String home_latitude;
+    private String home_longitude;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Stream.of(roles.split(","))
