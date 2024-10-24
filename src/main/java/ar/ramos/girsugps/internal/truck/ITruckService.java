@@ -11,4 +11,5 @@ public interface ITruckService {
     Page<PositionRecord> findPositionRecordsByTruckId(Long truckId, Pageable pageable);
     void deleteById(Long id);
     boolean existsById(Long id);
+    void updateRoute(Long id, String newRoute);
 }

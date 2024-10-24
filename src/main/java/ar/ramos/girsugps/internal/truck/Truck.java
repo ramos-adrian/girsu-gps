@@ -12,4 +12,9 @@ public class Truck {
 
     @Column(nullable = false, unique = true)
     private String plate;
+
+    /**
+     * The route that the truck is currently following. Formated in GeoHash.
+     */
+    String route;
 }

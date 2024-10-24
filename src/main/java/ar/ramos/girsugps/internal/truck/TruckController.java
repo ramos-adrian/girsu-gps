@@ -56,6 +56,12 @@ public class TruckController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/{id}/route")
+    private ResponseEntity<Truck> updateRoute(@PathVariable Long id, @RequestBody String newRoute) {
+        truckService.updateRoute(id, newRoute);
+        return ResponseEntity.noContent().build();
+    }
+
     // TODO Move out of the class
     @ControllerAdvice
     public static class GlobalExceptionHandler {

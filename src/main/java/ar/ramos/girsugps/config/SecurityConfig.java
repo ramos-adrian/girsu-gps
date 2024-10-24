@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(customizer -> customizer
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

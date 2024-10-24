@@ -63,6 +63,12 @@ public class TruckService implements ITruckService {
         return truckRepository.existsById(id);
     }
 
+    public void updateRoute(Long id, String newRoute) {
+        Truck truck = findById(id);
+        truck.setRoute(newRoute);
+        truckRepository.save(truck);
+    }
+
     public static class EntityNotFoundException extends RuntimeException {
         public EntityNotFoundException(String message) {
             super(message);
