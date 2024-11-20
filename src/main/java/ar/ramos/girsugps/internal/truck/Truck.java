@@ -1,7 +1,12 @@
 package ar.ramos.girsugps.internal.truck;
 
+import ar.ramos.girsugps.internal.routepoint.RoutePoint;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
@@ -13,8 +18,7 @@ public class Truck {
     @Column(nullable = false, unique = true)
     private String plate;
 
-    /**
-     * The route that the truck is currently following. Formated in GeoHash.
-     */
-    String route;
+    @OneToMany
+    @OrderColumn
+    private List<RoutePoint> route;
 }

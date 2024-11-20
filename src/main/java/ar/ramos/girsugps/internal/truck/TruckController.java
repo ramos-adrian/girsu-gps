@@ -1,6 +1,8 @@
 package ar.ramos.girsugps.internal.truck;
 
 import ar.ramos.girsugps.internal.positionrecord.PositionRecord;
+import ar.ramos.girsugps.internal.routepoint.RoutePoint;
+import com.google.maps.model.LatLng;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/trucks")
@@ -57,9 +60,9 @@ public class TruckController {
     }
 
     @PutMapping("/{id}/route")
-    private ResponseEntity<Truck> updateRoute(@PathVariable Long id, @RequestBody String newRoute) {
-        truckService.updateRoute(id, newRoute);
-        return ResponseEntity.noContent().build();
+    private ResponseEntity<List<RoutePoint>> updateRoute(@PathVariable Long id, @RequestBody LatLng[] route) {
+        List<RoutePoint> newRoute = truckService.updateRoute(id, route);
+        return ResponseEntity.ok(newRoute);
     }
 
     // TODO Move out of the class
