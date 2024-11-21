@@ -39,8 +39,8 @@ public class User implements UserDetails {
 
     private String password;
 
-    private String home_latitude;
-    private String home_longitude;
+    @OneToOne
+    private UserHome home;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
