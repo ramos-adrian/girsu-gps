@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Profile("dev")
 @Component
 public class AdminUserInitializer implements CommandLineRunner {
-    private final JpaUserDetailsService userService;
+    private final UserService userService;
 
     private final String ADMIN_USERNAME;
     private final String ADMIN_PASSWORD;
 
     public AdminUserInitializer(
-            JpaUserDetailsService userService,
+            UserService userService,
             @Value("${ADMIN_USERNAME}") String ADMIN_USERNAME,
             @Value("${ADMIN_PASSWORD}") String ADMIN_PASSWORD) {
         this.userService = userService;

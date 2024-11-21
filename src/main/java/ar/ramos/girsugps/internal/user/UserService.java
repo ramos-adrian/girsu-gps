@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Profile("prod")
 @Service
-public class JpaUserDetailsService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public JpaUserDetailsService(IUserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
