@@ -18,7 +18,7 @@ public class Truck {
     @Column(nullable = false, unique = true)
     private String plate;
 
-    @OneToMany
+    @ManyToMany
     @OrderColumn
     private List<RoutePoint> route;
 }

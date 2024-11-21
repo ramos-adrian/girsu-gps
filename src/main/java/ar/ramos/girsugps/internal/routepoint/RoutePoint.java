@@ -1,5 +1,6 @@
 package ar.ramos.girsugps.internal.routepoint;
 
+import ar.ramos.girsugps.internal.place.Place;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,5 +16,6 @@ public class RoutePoint {
     private double lat;
     private double lng;
 
-    private String placeId;
+    @ManyToOne
+    private Place place;
 }
