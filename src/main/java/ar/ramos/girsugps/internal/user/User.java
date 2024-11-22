@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,7 +40,8 @@ public class User implements UserDetails {
 
     private String password;
 
-    @OneToOne
+    @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private UserHome home;
 
     @Override

@@ -1,23 +1,27 @@
 package ar.ramos.girsugps.internal.user;
 
-import ar.ramos.girsugps.internal.place.Place;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
 public class UserHome {
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne
-    private Place place;
-    private long latitude;
-    private long longitude;
+    private String placeId;
+    private double latitude;
+    private double longitude;
+
+    @Data
+    public static class UserHomeDTO {
+        private final String username;
+        private final double latitude;
+        private final double longitude;
+    }
 }

@@ -1,5 +1,6 @@
 package ar.ramos.girsugps.internal.user;
 
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final IUserRepository userRepository;
+    private final IUserHomeRepository userHomeRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(IUserRepository userRepository, IUserHomeRepository userHomeRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.userHomeRepository = userHomeRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -34,10 +37,19 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void setHome(String username, UserHome home) {
+    @Transactional
+    public UserHome setHome(String username, UserHome home) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        user.setHome(home);
+        UserHome currentUserHome = user.getHome();
+        if (currentUserHome != null) {
+            userHomeRepository.delete(currentUserHome);
+            user.setHome(null);
+            userRepository.save(user);
+        }
+        UserHome savedHome = userHomeRepository.save(home);
+        user.setHome(savedHome);
         userRepository.save(user);
+        return savedHome;
     }
 }
