@@ -93,8 +93,6 @@ class GirsugpsApplicationTests {
 
         URI location = response.getHeaders().getLocation();
 
-        System.out.println(location);
-
         ResponseEntity<String> responseGet = restTemplate
                 .withBasicAuth(adminUsername, adminPassword)
                 .getForEntity(location, String.class);

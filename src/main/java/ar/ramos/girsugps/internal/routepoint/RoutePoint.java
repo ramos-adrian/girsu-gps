@@ -6,6 +6,7 @@ import lombok.*;
 
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
+@ToString
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"lat", "lng"}))
 public class RoutePoint {

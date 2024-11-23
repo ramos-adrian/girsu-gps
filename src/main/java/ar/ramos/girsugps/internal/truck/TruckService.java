@@ -5,7 +5,7 @@ import ar.ramos.girsugps.internal.place.Place;
 import ar.ramos.girsugps.internal.positionrecord.IPositionRecordRepository;
 import ar.ramos.girsugps.internal.positionrecord.PositionRecord;
 import ar.ramos.girsugps.internal.routepoint.RoutePoint;
-import ar.ramos.girsugps.internal.routepoint.RoutePointRepository;
+import ar.ramos.girsugps.internal.routepoint.IRoutePointRepository;
 import com.google.maps.*;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
@@ -27,14 +27,14 @@ public class TruckService implements ITruckService {
     private final ITruckRepository truckRepository;
     private final IPositionRecordRepository positionRecordRepository;
     private final IPlaceRepository placeRepository;
-    private final RoutePointRepository routePointRepository;
+    private final IRoutePointRepository routePointRepository;
     private final GeoApiContext geoApiContext;
     private final GeometryFactory geometryFactory;
 
     public TruckService(
             ITruckRepository truckRepository,
             IPositionRecordRepository positionRecordRepository,
-            RoutePointRepository routePointRepository,
+            IRoutePointRepository routePointRepository,
             IPlaceRepository placeRepository,
             GeoApiContext geoApiContext,
             GeometryFactory geometryFactory

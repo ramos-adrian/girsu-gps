@@ -17,6 +17,7 @@ public class UserHome {
     private String placeId;
     private double latitude;
     private double longitude;
+    private long lastNotified = 0;
 
     @Data
     public static class UserHomeDTO {

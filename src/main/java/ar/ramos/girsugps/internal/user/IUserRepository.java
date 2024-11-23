@@ -9,4 +9,5 @@ import java.util.Optional;
 @Profile("prod")
 public interface IUserRepository extends JpaRepository<User, Long>, PagingAndSortingRepository<User, Long> {
     Optional<User> findByUsername(String username);
+    Optional<User> findByHome(UserHome home);
 }
