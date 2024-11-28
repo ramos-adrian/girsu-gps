@@ -22,7 +22,7 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User addUser(String username, String rawPassword, String roles) {
+    public UserDetails addUser(String username, String rawPassword, String roles) {
         String encodedPassword = passwordEncoder.encode(rawPassword);
         User user = new User();
         user.setUsername(username);
@@ -33,8 +33,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     @Transactional

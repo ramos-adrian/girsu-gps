@@ -89,13 +89,13 @@ public class PositionRecordService implements IPositionRecordService {
         List<RoutePoint> nextRoutePoints = getNextRoutePoints(routePoints, snappedTruckRoutePoint, 500);
 
         for (RoutePoint routePoint : nextRoutePoints) {
-            List<UserHome> nearbyHomes = getNearbyHomes(routePoint, 100);
+            List<UserHome> nearbyHomes = getNearbyHomes(routePoint, 500);
             for (UserHome home : nearbyHomes) {
-//                if (home.getLastNotified() == 0 || home.getLastNotified() < System.currentTimeMillis() - 12 * 60 * 60 * 1000) {
-                if (true) {
-                    home.setLastNotified(savedRecord.getTimestamp());
+                if (home.getLastNotified() == 0 || home.getLastNotified() < System.currentTimeMillis() - 5 * 1000 ) {
+                    home.setLastNotified(System.currentTimeMillis());
                     userHomeRepository.save(home);
-                    notificationService.sendNotification(home, "Your truck is near");
+                    System.out.println("Sending notification to home with id: " + home.getId());
+                    notificationService.sendNotification(home, "El camión de basura pasará por tu casa en 15 minutos");
                 }
             }
         }
