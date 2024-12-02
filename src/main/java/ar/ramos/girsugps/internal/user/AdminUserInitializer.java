@@ -8,7 +8,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Profile("dev")
 @Component
 public class AdminUserInitializer implements CommandLineRunner {
     private final UserService userService;
