@@ -1,29 +1,22 @@
 package ar.ramos.girsugps.internal.user;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Profile("prod")
 @Service
 public class UserService implements UserDetailsService {
 
     private final IUserRepository userRepository;
     private final IUserHomeRepository userHomeRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserService(IUserRepository userRepository, IUserHomeRepository userHomeRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userHomeRepository = userHomeRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public UserDetails addUser(String username, String rawPassword, String roles) {
-        String encodedPassword = passwordEncoder.encode(rawPassword);
+    public UserDetails addUser(String username, String encodedPassword, String roles) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(encodedPassword);
