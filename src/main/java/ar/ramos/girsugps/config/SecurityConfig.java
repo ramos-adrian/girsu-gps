@@ -59,6 +59,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/user/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/whatsappwebhook/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/whatsappwebhook/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(customizer -> customizer
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
