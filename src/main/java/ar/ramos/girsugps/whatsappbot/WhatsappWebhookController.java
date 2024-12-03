@@ -15,6 +15,7 @@ public class WhatsappWebhookController {
 
     @PostMapping
     public ResponseEntity<Void> update(@RequestBody String payload) throws JsonProcessingException {
+        System.out.println("Received webhook event");
         WebHookEvent event = WebHook.constructEvent(payload);
         System.out.println(event);
         return ResponseEntity.ok().build();
