@@ -45,7 +45,7 @@ public class AdminUserInitializer implements CommandLineRunner {
             User user = (User) userService.loadUserByUsername(ADMIN_USERNAME);
             user.setRoles("ROLE_ADMIN");
             iUserRepository.save(user);
-        } catch (DataIntegrityViolationException e) {
+        } catch (RuntimeException e) {
             log.info("Admin user already exists");
         }
     }

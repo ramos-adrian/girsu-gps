@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@Profile({"!telegram"})
+@Profile({"!telegram & !whatsapp"})
 public class ConsolePrintNotificationService implements INotificationService{
 
     private final IUserHomeRepository userHomeRepository;

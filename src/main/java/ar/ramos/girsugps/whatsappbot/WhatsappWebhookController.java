@@ -25,9 +25,12 @@ public class WhatsappWebhookController {
                                                       @RequestParam("hub.challenge") String challenge,
                                                       @RequestParam("hub.verify_token") String verifyToken,
                                                       @Value("${WHATSAPP_WEBHOOK_VERIFY_TOKEN}") String expectedVerifyToken) {
+        System.out.println("Received verification request");
         if (!expectedVerifyToken.equals(verifyToken)) {
+            System.out.println("Invalid verify token " + verifyToken + " expected " + expectedVerifyToken);
             return ResponseEntity.badRequest().body("Invalid verify token");
         }
+        System.out.println("Returning challenge " + challenge);
         return ResponseEntity.ok(challenge);
     }
 
