@@ -89,7 +89,8 @@ public class WhatsappWebhookController {
                     double lng = location.longitude();
                     System.out.println("Lat: " + lat + " Lng: " + lng);
 
-                    String username = message.from();
+                    // Remove the number in index '2' from the phone number. This only apply for Argentina
+                    String username = message.from().substring(0, 2) + message.from().substring(3);
                     User user = (User) userService.loadUserByUsername(username);
 
                     if (user == null) {
