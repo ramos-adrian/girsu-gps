@@ -8,6 +8,7 @@ import ar.ramos.girsugps.internal.truck.TruckLocationUpdateDTO;
 import ar.ramos.girsugps.internal.user.IUserHomeRepository;
 import ar.ramos.girsugps.internal.user.UserHome;
 import com.google.maps.model.LatLng;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,17 +28,20 @@ public class PositionRecordService implements IPositionRecordService {
     private final IUserHomeRepository userHomeRepository;
     private final INotificationService notificationService;
     private final ApplicationEventPublisher eventPublisher;
+    private final int SECONDS_BETWEEN_NOTIFICATIONS;
 
     public PositionRecordService(IPositionRecordRepository positionRecordRepository,
                                  ITruckRepository truckRepository,
                                  ApplicationEventPublisher eventPublisher,
                                  INotificationService notificationService,
-                                 IUserHomeRepository userHomeRepository) {
+                                 IUserHomeRepository userHomeRepository,
+                                 @Value("${SECONDS_BETWEEN_NOTIFICATIONS:28800}") int secondsBetweenNotifications) {
         this.positionRecordRepository = positionRecordRepository;
         this.truckRepository = truckRepository;
         this.userHomeRepository = userHomeRepository;
         this.notificationService = notificationService;
         this.eventPublisher = eventPublisher;
+        SECONDS_BETWEEN_NOTIFICATIONS = secondsBetweenNotifications;
     }
 
     @Override
@@ -91,7 +95,7 @@ public class PositionRecordService implements IPositionRecordService {
         for (RoutePoint routePoint : nextRoutePoints) {
             List<UserHome> nearbyHomes = getNearbyHomes(routePoint, 500);
             for (UserHome home : nearbyHomes) {
-                if (home.getLastNotified() == 0 || home.getLastNotified() < System.currentTimeMillis() - 5 * 1000 ) {
+                if (home.getLastNotified() == 0 || home.getLastNotified() < System.currentTimeMillis() - 1000 * SECONDS_BETWEEN_NOTIFICATIONS ) {
                     home.setLastNotified(System.currentTimeMillis());
                     userHomeRepository.save(home);
                     System.out.println("Sending notification to home with id: " + home.getId());
