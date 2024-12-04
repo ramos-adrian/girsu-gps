@@ -3,7 +3,6 @@ package ar.ramos.girsugps.internal.auth;
 import ar.ramos.girsugps.internal.user.IUserRepository;
 import ar.ramos.girsugps.internal.user.UserService;
 import ar.ramos.girsugps.jwt.JwtService;
-import com.fasterxml.jackson.core.Base64Variant;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +21,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationResponse login(LoginRequest loginRequest) {
+    public AuthenticationResponse loginWebBrowser(LoginRequest loginRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.username(),
@@ -37,7 +36,13 @@ public class AuthenticationService {
         return new AuthenticationResponse(token);
     }
 
-    public AuthenticationResponse register(RegisterRequest registerRequest) {
+    public AuthenticationResponse registerWebBrowser(RegisterRequest registerRequest) {
+        UserDetails user = register(registerRequest);
+        String token = jwtService.generateToken(user);
+        return new AuthenticationResponse(token);
+    }
+
+    public UserDetails register(RegisterRequest registerRequest) {
         String username = registerRequest.username();
 
         if (userService.loadUserByUsername(username) != null) {
@@ -49,8 +54,6 @@ public class AuthenticationService {
             rawPassword = RandomStringUtils.randomAlphanumeric(10);
         }
         String encodedPassword = this.passwordEncoder.encode(rawPassword);
-        UserDetails user = userService.addUser(username, encodedPassword, "ROLE_USER");
-        String token = jwtService.generateToken(user);
-        return new AuthenticationResponse(token);
+        return userService.addUser(username, encodedPassword, "ROLE_USER");
     }
 }

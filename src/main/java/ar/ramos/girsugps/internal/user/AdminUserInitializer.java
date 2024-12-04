@@ -2,17 +2,10 @@ package ar.ramos.girsugps.internal.user;
 
 import ar.ramos.girsugps.internal.auth.AuthenticationService;
 import ar.ramos.girsugps.internal.auth.RegisterRequest;
-import io.jsonwebtoken.lang.Collections;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 
 @Slf4j
 @Component
@@ -41,7 +34,7 @@ public class AdminUserInitializer implements CommandLineRunner {
     public void run(String... args) {
         try {
             RegisterRequest registerRequest = new RegisterRequest(ADMIN_USERNAME, ADMIN_PASSWORD);
-            authService.register(registerRequest);
+            authService.registerWebBrowser(registerRequest);
             User user = (User) userService.loadUserByUsername(ADMIN_USERNAME);
             user.setRoles("ROLE_ADMIN");
             iUserRepository.save(user);
