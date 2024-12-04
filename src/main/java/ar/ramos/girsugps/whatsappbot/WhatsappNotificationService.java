@@ -4,8 +4,11 @@ import ar.ramos.girsugps.internal.auth.AuthenticationService;
 import ar.ramos.girsugps.internal.notification.INotificationService;
 import ar.ramos.girsugps.internal.user.IUserRepository;
 import ar.ramos.girsugps.internal.user.UserHome;
+import com.whatsapp.api.domain.messages.Language;
 import com.whatsapp.api.domain.messages.Message;
+import com.whatsapp.api.domain.messages.TemplateMessage;
 import com.whatsapp.api.domain.messages.TextMessage;
+import com.whatsapp.api.domain.templates.type.LanguageType;
 import com.whatsapp.api.impl.WhatsappBusinessCloudApi;
 import com.whatsapp.api.utils.Formatter;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +31,7 @@ public class WhatsappNotificationService implements INotificationService {
             AuthenticationService authenticationService,
             IUserRepository userRepository,
             WhatsappBusinessCloudApi bot,
-            @Value("${WHATSAPP_PHONE_ID}")  String phoneId
+            @Value("${WHATSAPP_PHONE_ID}") String phoneId
     ) {
         this.authenticationService = authenticationService;
         this.userRepository = userRepository;
@@ -48,10 +51,10 @@ public class WhatsappNotificationService implements INotificationService {
 
         Message wpMsg = Message.MessageBuilder.builder()
                 .setTo(user.getUsername())
-                .buildTextMessage(
-                        new TextMessage()
-                                .setBody(Formatter.bold("Hello world!") + "\nSome code here: \n" + Formatter.code("hello world code here"))
-                                .setPreviewUrl(false)
+                .buildTemplateMessage(
+                        new TemplateMessage()
+                                .setLanguage(new Language(LanguageType.ES_AR))
+                                .setName("garbage_truck_is_near")
                 );
 
         bot.sendMessage(phoneId, wpMsg);
