@@ -120,7 +120,7 @@ public class WhatsappWebhookController {
                             .buildTemplateMessage(
                                     new TemplateMessage()
                                             .setLanguage(new Language(LanguageType.ES_AR))
-                                            .setName("register_success") // TODO change to the correct template name
+                                            .setName("success_registration") // TODO change to the correct template name
                             );
 
                     wpApi.sendMessage(WHATSAPP_PHONE_ID, msg);
