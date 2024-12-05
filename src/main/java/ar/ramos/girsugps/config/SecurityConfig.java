@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+                        .requestMatchers(HttpMethod.GET,  "/api/positionRecords/latest").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/trucks/**", "/api/positionRecords/**").hasRole("ADMIN")

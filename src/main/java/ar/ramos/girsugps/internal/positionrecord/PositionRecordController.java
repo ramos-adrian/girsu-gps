@@ -25,6 +25,12 @@ public class PositionRecordController {
         return ResponseEntity.ok(records.getContent());
     }
 
+    @GetMapping("/latest")
+    public ResponseEntity<List<PositionRecord>> findLatest() {
+        List<PositionRecord> records = positionRecordService.findAllLatest();
+        return ResponseEntity.ok(records);
+    }
+
     @PostMapping
     public ResponseEntity<PositionRecord> save(@RequestBody PositionRecord record, UriComponentsBuilder ucb) {
         PositionRecord savedRecord = positionRecordService.save(record);

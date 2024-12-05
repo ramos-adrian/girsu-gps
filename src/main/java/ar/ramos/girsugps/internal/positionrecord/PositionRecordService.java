@@ -107,6 +107,11 @@ public class PositionRecordService implements IPositionRecordService {
         return savedRecord;
     }
 
+    @Override
+    public List<PositionRecord> findAllLatest() {
+        return positionRecordRepository.findAllLatest();
+    }
+
     // TODO Apply memoization
     // TODO check that the name of the street is the same
     private List<UserHome> getNearbyHomes(RoutePoint routePoint, int maxDistance) {
