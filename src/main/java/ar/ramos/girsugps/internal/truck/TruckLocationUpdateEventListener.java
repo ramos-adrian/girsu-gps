@@ -15,6 +15,7 @@ public class TruckLocationUpdateEventListener {
 
     @EventListener
     public void handleTruckLocationUpdate(TruckLocationUpdateDTO update) {
+        System.out.println("Sending truck location update.");
         messagingTemplate.convertAndSend("/topic/truckLocationUpdates", update);
     }
 }
