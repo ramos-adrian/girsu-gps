@@ -45,9 +45,9 @@ We aim not only to improve efficiency and control in waste collection but also t
 
 - [x] Real-time update of truck locations via WebSocket
 - [x] CRUD operations for trucks
-- [ ] CRUD operations for users
-- [ ] User authentication and authorization
-- [ ] Alerts and notifications for truck status
+- [x] CRUD operations for users
+- [x] User authentication and authorization
+- [x] Alerts and notifications for truck status
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -69,8 +69,21 @@ To obtain a working local copy, follow these simple steps.
 2. Create a .env file in the root directory with the following variables:
    ```sh
     #.env
-    ADMIN_USERNAME=admin
-    ADMIN_PASSWORD=secret
+    ADMIN_USERNAME=
+    ADMIN_PASSWORD=
+    GOOGLE_MAPS_API=
+    TELEGRAM_BOT_TOKEN=
+    SPRING_DATASOURCE_URL=
+    SPRING_DATASOURCE_USERNAME=
+    SPRING_DATASOURCE_PASSWORD=
+    SPRING_PROFILES_ACTIVE=prod,dev,whatsapp
+    CORS_ALLOWED_ORIGINS=*
+    WEBSOCKET_ALLOWED_ORIGINS=*
+    SECONDS_BETWEEN_NOTIFICATIONS=28800
+    JWT_SECRET=
+    WHATSAPP_TOKEN=
+    WHATSAPP_PHONE_ID=
+    WHATSAPP_WEBHOOK_VERIFY_TOKEN=
    ```
    
 4. Run the development server
